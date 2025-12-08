@@ -6,10 +6,12 @@ import cookieParser from 'cookie-parser';
 import { config } from './config/env.js';
 import { httpLogStream } from './utils/logger.js';
 import { errorHandler, notFoundHandler, apiLimiter } from './middleware/index.js';
+import { passport, initializePassport } from './config/oauth.js';
 
 // Import routes
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
+import oauthRoutes from './routes/oauth.routes.js';
 
 const app: Application = express();
 
@@ -30,6 +32,10 @@ app.use(
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
+
+// Initialize Passport
+initializePassport();
+app.use(passport.initialize());
 
 // HTTP request logging
 if (config.isDevelopment) {
@@ -55,6 +61,7 @@ app.get('/health', (_req, res) => {
 
 // API routes
 app.use('/api/auth', authRoutes);
+app.use('/api/auth', oauthRoutes);
 app.use('/api/users', userRoutes);
 
 // 404 handler
