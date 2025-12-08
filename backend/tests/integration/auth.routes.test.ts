@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../src/app';
 import { User } from '../../src/models/User.model';
+import { authService } from '../../src/services/auth.service';
 
 describe('Auth Routes', () => {
   describe('POST /api/auth/register', () => {
@@ -34,14 +35,13 @@ describe('Auth Routes', () => {
     });
 
     it('should return error for duplicate email', async () => {
-      await request(app)
-        .post('/api/auth/register')
-        .send({
-          email: 'duplicate@example.com',
-          password: 'TestPassword123!',
-          firstName: 'John',
-          lastName: 'Doe',
-        });
+      // Use service directly for first registration to avoid rate limit
+      await authService.register({
+        email: 'duplicate@example.com',
+        password: 'TestPassword123!',
+        firstName: 'John',
+        lastName: 'Doe',
+      });
 
       const response = await request(app)
         .post('/api/auth/register')
@@ -59,19 +59,15 @@ describe('Auth Routes', () => {
 
   describe('POST /api/auth/login', () => {
     beforeEach(async () => {
-      await request(app)
-        .post('/api/auth/register')
-        .send({
-          email: 'logintest@example.com',
-          password: 'TestPassword123!',
-          firstName: 'John',
-          lastName: 'Doe',
-        });
+      // Use service directly to avoid rate limit
+      const result = await authService.register({
+        email: 'logintest@example.com',
+        password: 'TestPassword123!',
+        firstName: 'John',
+        lastName: 'Doe',
+      });
 
-      await User.findOneAndUpdate(
-        { email: 'logintest@example.com' },
-        { isEmailVerified: true }
-      );
+      await User.findByIdAndUpdate(result.user._id, { isEmailVerified: true });
     });
 
     it('should login with valid credentials', async () => {
@@ -104,28 +100,25 @@ describe('Auth Routes', () => {
     let accessToken: string;
 
     beforeEach(async () => {
-      await request(app)
-        .post('/api/auth/register')
-        .send({
-          email: 'metest@example.com',
-          password: 'TestPassword123!',
-          firstName: 'John',
-          lastName: 'Doe',
-        });
+      // Use service directly to avoid rate limit
+      const result = await authService.register({
+        email: 'metest@example.com',
+        password: 'TestPassword123!',
+        firstName: 'John',
+        lastName: 'Doe',
+      });
 
-      await User.findOneAndUpdate(
-        { email: 'metest@example.com' },
-        { isEmailVerified: true }
+      await User.findByIdAndUpdate(result.user._id, { isEmailVerified: true });
+
+      const loginResult = await authService.login(
+        { email: 'metest@example.com', password: 'TestPassword123!' },
+        '127.0.0.1',
+        'Mozilla/5.0'
       );
 
-      const loginResponse = await request(app)
-        .post('/api/auth/login')
-        .send({
-          email: 'metest@example.com',
-          password: 'TestPassword123!',
-        });
-
-      accessToken = loginResponse.body.data.accessToken;
+      if ('accessToken' in loginResult) {
+        accessToken = loginResult.accessToken;
+      }
     });
 
     it('should return current user with valid token', async () => {
@@ -149,28 +142,25 @@ describe('Auth Routes', () => {
     let accessToken: string;
 
     beforeEach(async () => {
-      await request(app)
-        .post('/api/auth/register')
-        .send({
-          email: 'logouttest@example.com',
-          password: 'TestPassword123!',
-          firstName: 'John',
-          lastName: 'Doe',
-        });
+      // Use service directly to avoid rate limit
+      const result = await authService.register({
+        email: 'logouttest@example.com',
+        password: 'TestPassword123!',
+        firstName: 'John',
+        lastName: 'Doe',
+      });
 
-      await User.findOneAndUpdate(
-        { email: 'logouttest@example.com' },
-        { isEmailVerified: true }
+      await User.findByIdAndUpdate(result.user._id, { isEmailVerified: true });
+
+      const loginResult = await authService.login(
+        { email: 'logouttest@example.com', password: 'TestPassword123!' },
+        '127.0.0.1',
+        'Mozilla/5.0'
       );
 
-      const loginResponse = await request(app)
-        .post('/api/auth/login')
-        .send({
-          email: 'logouttest@example.com',
-          password: 'TestPassword123!',
-        });
-
-      accessToken = loginResponse.body.data.accessToken;
+      if ('accessToken' in loginResult) {
+        accessToken = loginResult.accessToken;
+      }
     });
 
     it('should logout successfully', async () => {
