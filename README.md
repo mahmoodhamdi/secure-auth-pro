@@ -480,10 +480,12 @@ MIT License - انظر ملف [LICENSE](LICENSE) للتفاصيل
 
 ## 👨‍💻 المطور
 
-**Mahmoud - MWM Development Agency**
+**Mahmoud - MWM Software Solutions**
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: <your.email@example.com>
+- GitHub: [@mahmoodhamdi](https://github.com/mahmoodhamdi)
+- Email: <hmdy7486@gmail.com>
+- Business Email: <mwm.softwars.solutions@gmail.com>
+- WhatsApp: [+201019793768](https://wa.me/201019793768)
 
 ## 🙏 شكر وتقدير
 
