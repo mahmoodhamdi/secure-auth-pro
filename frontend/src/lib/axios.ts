@@ -155,6 +155,24 @@ export const authApi = {
   },
 };
 
+// OAuth API
+export const oauthApi = {
+  getStatus: async () => {
+    const response = await api.get('/auth/oauth/status');
+    return response.data;
+  },
+
+  unlinkProvider: async (provider: 'google' | 'github' | 'facebook') => {
+    const response = await api.delete(`/auth/oauth/${provider}`);
+    return response.data;
+  },
+
+  // OAuth initiation URLs
+  getGoogleAuthUrl: () => `${API_URL}/auth/google`,
+  getGitHubAuthUrl: () => `${API_URL}/auth/github`,
+  getFacebookAuthUrl: () => `${API_URL}/auth/facebook`,
+};
+
 export const userApi = {
   getProfile: async () => {
     const response = await api.get('/users/profile');
