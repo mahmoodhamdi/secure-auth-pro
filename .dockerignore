@@ -1,0 +1,61 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+!README.md
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Node modules
+node_modules
+
+# Build outputs
+dist
+build
+.next
+out
+
+# Test files
+coverage
+*.test.ts
+*.spec.ts
+tests
+__tests__
+
+# Logs
+logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp
+temp
+*.tmp
+
+# Docker
+Dockerfile*
+docker-compose*
+.docker
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+
+# Misc
+*.pem
+*.key
