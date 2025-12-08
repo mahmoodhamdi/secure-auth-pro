@@ -54,8 +54,17 @@ cd backend && npm run test:coverage
 # Frontend - unit tests
 cd frontend && npm test
 
-# Frontend - E2E tests (Playwright)
+# Frontend - run specific test file
+cd frontend && npx jest src/store/__tests__/authStore.test.ts
+
+# Frontend - E2E tests (Playwright - all browsers)
 cd frontend && npm run test:e2e
+
+# Frontend - E2E specific test file
+cd frontend && npx playwright test e2e/auth.spec.ts
+
+# Frontend - E2E specific browser
+cd frontend && npx playwright test --project=chromium
 ```
 
 ### Build & Lint
@@ -99,6 +108,25 @@ cd frontend && npm run lint:fix
 - `setup.ts` - Jest setup with MongoMemoryServer for isolated testing
 - `unit/` - Unit tests for services
 - `integration/` - Integration tests for API routes using supertest
+
+**Test Setup Notes:**
+- Uses MongoMemoryServer for isolated MongoDB instance (no real DB needed)
+- Redis is mocked (addToBlacklist, isBlacklisted)
+- Email service is mocked (sendVerificationEmail, sendPasswordResetEmail, etc.)
+- Jest timeout set to 30000ms for DB operations
+
+### Frontend Testing Structure (`frontend/`)
+- `src/**/__tests__/` - Unit tests (Jest + React Testing Library)
+- `e2e/` - E2E tests (Playwright)
+  - `auth.spec.ts` - Authentication flows
+  - `navigation.spec.ts` - Page navigation
+  - `accessibility.spec.ts` - A11y checks
+  - `form-interactions.spec.ts` - Form behavior
+
+**E2E Setup Notes:**
+- Runs against localhost:3000 (auto-starts dev server if not running)
+- Tests Chromium, Firefox, WebKit, and Mobile Chrome
+- Screenshots on failure, traces on first retry
 
 ### Key Architectural Patterns
 

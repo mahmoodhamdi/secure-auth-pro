@@ -1,36 +1,36 @@
 import request from 'supertest';
 import { app } from '../../src/app';
 import { User } from '../../src/models/User.model';
+import { authService } from '../../src/services/auth.service';
 
 describe('User Routes', () => {
   let accessToken: string;
-  let userId: string;
 
   beforeEach(async () => {
-    // Create and login a test user
-    await request(app)
-      .post('/api/auth/register')
-      .send({
+    // Use the auth service directly to avoid rate limiting
+    const registerResult = await authService.register({
+      email: 'usertest@example.com',
+      password: 'TestPassword123!',
+      firstName: 'John',
+      lastName: 'Doe',
+    });
+
+    await User.findByIdAndUpdate(registerResult.user._id, {
+      isEmailVerified: true,
+    });
+
+    const loginResult = await authService.login(
+      {
         email: 'usertest@example.com',
         password: 'TestPassword123!',
-        firstName: 'John',
-        lastName: 'Doe',
-      });
-
-    await User.findOneAndUpdate(
-      { email: 'usertest@example.com' },
-      { isEmailVerified: true }
+      },
+      '127.0.0.1',
+      'Mozilla/5.0'
     );
 
-    const loginResponse = await request(app)
-      .post('/api/auth/login')
-      .send({
-        email: 'usertest@example.com',
-        password: 'TestPassword123!',
-      });
-
-    accessToken = loginResponse.body.data.accessToken;
-    userId = loginResponse.body.data.user._id;
+    if ('accessToken' in loginResult) {
+      accessToken = loginResult.accessToken;
+    }
   });
 
   describe('GET /api/users/profile', () => {
