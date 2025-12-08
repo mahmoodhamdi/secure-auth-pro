@@ -12,17 +12,18 @@ SecureAuth Pro is a comprehensive authentication system with JWT, OAuth (Google,
 - Node.js 20+, Express.js, TypeScript
 - MongoDB 7+ (Mongoose), Redis 7+
 - JWT + Passport.js authentication
-- Zod validation
+- Zod validation, Helmet, Rate Limiting
 
 ### Frontend
 - Next.js 14+ (App Router), TypeScript
 - Tailwind CSS, Zustand (state), React Hook Form + Zod
+- Axios with interceptors for token refresh
 
 ## Development Commands
 
 ### Local Development (without Docker)
 ```bash
-# Backend
+# Backend (uses tsx watch for hot reload)
 cd backend && npm install && npm run dev
 
 # Frontend
@@ -165,3 +166,31 @@ Key variables: MongoDB URI, Redis connection, JWT secrets, OAuth credentials, SM
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:5000
 - API Docs: http://localhost:5000/api-docs
+
+## Error Codes Reference
+
+| Code | Description |
+|------|-------------|
+| AUTH_001 | Invalid credentials |
+| AUTH_002 | Account not verified |
+| AUTH_003 | Account disabled |
+| AUTH_004 | Token expired |
+| AUTH_005 | Token invalid |
+| AUTH_006 | 2FA required |
+| AUTH_007 | Invalid 2FA code |
+| AUTH_008 | Too many attempts |
+| USER_001 | User not found |
+| USER_002 | Email already exists |
+| USER_003 | Invalid password |
+| OAUTH_001 | OAuth provider error |
+| VAL_001 | Validation error |
+
+## API Response Format
+
+```json
+// Success
+{ "success": true, "data": { ... }, "message": "..." }
+
+// Error
+{ "success": false, "error": { "code": "ERROR_CODE", "message": "...", "details": { ... } } }
+```

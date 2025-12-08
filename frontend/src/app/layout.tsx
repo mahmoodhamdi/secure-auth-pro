@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: 'SecureAuth Pro',
   description: 'Advanced Authentication System with JWT, OAuth, and 2FA',
   keywords: ['authentication', 'security', 'jwt', 'oauth', '2fa'],
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
@@ -17,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className} suppressHydrationWarning>
         {children}
         <Toaster
           position="top-right"
