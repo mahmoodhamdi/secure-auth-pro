@@ -12,6 +12,63 @@ SecureAuth Pro هو نظام مصادقة شامل وآمن يوفر:
 - إدارة الجلسات المتعددة
 - نظام Refresh Tokens آمن
 
+## 📸 لقطات الشاشة
+
+### صفحات المصادقة
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/07-login-filled.png" alt="Login Page" width="400"/><br/>
+      <b>صفحة تسجيل الدخول</b>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/08-register-filled.png" alt="Register Page" width="400"/><br/>
+      <b>صفحة التسجيل</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/04-reset-password.png" alt="Forgot Password" width="400"/><br/>
+      <b>استعادة كلمة المرور</b>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/06-two-factor.png" alt="Two Factor Auth" width="400"/><br/>
+      <b>المصادقة الثنائية (2FA)</b>
+    </td>
+  </tr>
+</table>
+
+### الصفحة الرئيسية والتحقق
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/11-home.png" alt="Home Page" width="400"/><br/>
+      <b>الصفحة الرئيسية</b>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/05-verify-email.png" alt="Email Verification" width="400"/><br/>
+      <b>التحقق من البريد الإلكتروني</b>
+    </td>
+  </tr>
+</table>
+
+### العرض على الهاتف (Mobile Responsive)
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/09-login-mobile.png" alt="Login Mobile" width="200"/><br/>
+      <b>تسجيل الدخول - موبايل</b>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/10-register-mobile.png" alt="Register Mobile" width="200"/><br/>
+      <b>التسجيل - موبايل</b>
+    </td>
+  </tr>
+</table>
+
 ## 🏗️ البنية التقنية
 
 ### Backend
