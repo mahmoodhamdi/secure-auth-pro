@@ -6,7 +6,9 @@ export interface User {
   avatar?: string;
   role: 'user' | 'admin';
   isEmailVerified: boolean;
-  isTwoFactorEnabled: boolean;
+  twoFactorEnabled: boolean;
+  isActive: boolean;
+  lastLogin?: string;
   createdAt: string;
   updatedAt: string;
 }
